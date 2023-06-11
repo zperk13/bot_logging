@@ -1,0 +1,25 @@
+[package]
+name = "bot_logging"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/zperk13/bot_logging"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.17", default-features = false, features = [
+	"smallvec",
+	"fmt",
+	"tracing-log",
+	"std",
+] }
+opentelemetry = { version = "0.19.0", features = ["rt-tokio"] }
+opentelemetry-jaeger = { version = "0.18.0", features = [
+	"rt-tokio",
+	"collector_client",
+	"reqwest_collector_client",
+] }
+tracing-opentelemetry = "0.19.0"
+tracing-appender = "0.2.2"
+tracing-error = "0.2.0"

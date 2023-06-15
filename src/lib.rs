@@ -53,7 +53,7 @@ pub fn init(project_name: &str) -> Result<DropHandler, opentelemetry::trace::Tra
         .with(
             telemetry.with_filter(tracing_subscriber::filter::filter_fn(
                 |metadata| match metadata.module_path() {
-                    Some(module_path) => module_path.starts_with("ZachBot"),
+                    Some(module_path) => module_path.starts_with(&owned_project_name),
                     None => false,
                 },
             )),

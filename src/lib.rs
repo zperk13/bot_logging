@@ -38,12 +38,13 @@ pub fn init(project_name: &str) -> Result<DropHandler, opentelemetry::trace::Tra
         format!("log_{project_name}_"),
     );
 
-    let owned_project_name = project_name.to_owned();
+    let owned_project_name_1 = project_name.to_owned();
+    let owned_project_name_2 = project_name.to_owned();
     tracing_subscriber::Registry::default()
         .with(tracing_subscriber::fmt::layer().compact().with_filter(
             tracing_subscriber::filter::filter_fn(move |metadata| match metadata.module_path() {
                 Some(module_path) => {
-                    module_path.starts_with(&owned_project_name)
+                    module_path.starts_with(&owned_project_name_1)
                         && *metadata.level() >= tracing::Level::INFO
                 }
                 None => false,
@@ -51,12 +52,12 @@ pub fn init(project_name: &str) -> Result<DropHandler, opentelemetry::trace::Tra
         ))
         .with(tracing_subscriber::fmt::layer().with_writer(rolling_file_appender))
         .with(
-            telemetry.with_filter(tracing_subscriber::filter::filter_fn(
-                |metadata| match metadata.module_path() {
-                    Some(module_path) => module_path.starts_with(&owned_project_name),
+            telemetry.with_filter(tracing_subscriber::filter::filter_fn(move |metadata| {
+                match metadata.module_path() {
+                    Some(module_path) => module_path.starts_with(&owned_project_name_2),
                     None => false,
-                },
-            )),
+                }
+            })),
         )
         .init();
     Ok(DropHandler {})

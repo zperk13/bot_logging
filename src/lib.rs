@@ -34,7 +34,7 @@ pub fn init(
     if stdout || file || opentelemetry {
         let stdout_layer = if stdout {
             let owned_project_name = project_name.to_owned();
-            Some(tracing_subscriber::fmt::layer().compact().with_filter(
+            Some(tracing_subscriber::fmt::layer().pretty().with_filter(
                 tracing_subscriber::filter::filter_fn(
                     move |metadata| match metadata.module_path() {
                         Some(module_path) => {
